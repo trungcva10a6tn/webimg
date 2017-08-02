@@ -34,6 +34,7 @@ router.post('/new_post',upload.single('feature'), function(req, res, next) {
         id_user: req.body.id_user,
         content: req.body.content,
         comment: [],
+        likes: [],
         link_img: name_img,
         add_date: Date.now(),
         updated: Date.now()
@@ -66,7 +67,6 @@ router.post('/new_user',upload.single('feature'), function(req, res, next) {
 });
 router.put("/edit_post/:id", upload.single('feature'), function(req, res){
     Post.findById(req.params.id, function(err, post){
-        console.log(post);
         post.content = req.body.content;
         post.updated = ""+Date.now();
         if(req.file){
@@ -97,10 +97,22 @@ router.delete("/delete_post/:id", function(req, res){
         }
     });
 });
-router.get('/@:id_user', function(req, res, next) {
+router.get('/id_user=:id_user', function(req, res, next) {
   var id= req.params.id_user;
     Post.find({id_user: id},function (err, posts) {
         res.json({post: posts, id: id});
+    });
+});
+router.get('/likepost/id_post/:id_post/id_user/:id_user', function(req, res, next) {
+    Post.findById(req.params.id_post, function(err, post){
+        if (post.likes.indexOf(req.params.id_user) > -1){
+            post.likes.splice(post.likes.indexOf(req.params.id_user),1);
+        }else {
+            post.likes.push(req.params.id_user);
+        }
+        post.save(function(err){
+            res.json({post: post});
+        });
     });
 });
 module.exports = router;

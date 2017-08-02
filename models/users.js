@@ -6,9 +6,7 @@ var userimg = new user({
     fullname: String,
     password: String,
     avatar: String,
-    like: String,
-    add_date: user.Types.Date,
-    updated: user.Types.Date,
+    followers: String
 },{collection: "post"});
 
-module.exports = mongoose.model('Post', userimg);
+module.exports = mongoose.model('UserImg', userimg);
