@@ -1,4 +1,6 @@
 var express = require('express');
+var md5 = require('md5');
+var jwt = require('jwt-simple');
 var router = express.Router();
 var multer  = require('multer');
 var fs = require('fs');
@@ -20,6 +22,12 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage});
 
 router.get('/', function(req, res, next) {
+    var payload = { foo: 'bar' };
+    var secret = 'xxx';
+    var token = jwt.encode(payload, secret);
+    var decoded = jwt.decode(token, secret);
+    console.log(token);
+    console.log(decoded);
   Post.find({},function (err, posts) {
       res.json({post: posts});
   });
@@ -111,7 +119,7 @@ router.get('/likepost/id_post/:id_post/id_user/:id_user', function(req, res, nex
             post.likes.push(req.params.id_user);
         }
         post.save(function(err){
-            res.json({post: post});
+            res.json({likes: post.likes});
         });
     });
 });

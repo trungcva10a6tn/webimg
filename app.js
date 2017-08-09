@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var index = require('./routes/index');
 var users = require('./routes/users');
+
 mongoose.connect('mongodb://localhost/webimg');
 var app = express();
 
