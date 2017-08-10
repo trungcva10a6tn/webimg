@@ -123,4 +123,11 @@ router.get('/likepost/id_post/:id_post/id_user/:id_user', function(req, res, nex
         });
     });
 });
+router.post('/login', function(req, res, next) {
+    var id= req.body;
+    res.json({id: id});
+    // Post.find({id_user: id},function (err, posts) {
+    //     res.json({post: posts, id: id});
+    // });
+});
 module.exports = router;
